@@ -47,8 +47,6 @@ public abstract class BaseSliderView {
 
     private String mDescription;
 
-    private Picasso mPicasso;
-
     /**
      * Scale type of the image.
      */
@@ -207,7 +205,7 @@ public abstract class BaseSliderView {
             mLoadListener.onStart(me);
         }
 
-        Picasso p = (mPicasso != null) ? mPicasso : Picasso.with(mContext);
+        Picasso p = Picasso.with(mContext);
         RequestCreator rq = null;
         if(mUrl!=null){
             rq = p.load(mUrl);
@@ -306,23 +304,4 @@ public abstract class BaseSliderView {
         public void onEnd(boolean result,BaseSliderView target);
     }
 
-    /**
-     * Get the last instance set via setPicasso(), or null if no user provided instance was set
-     *
-     * @return The current user-provided Picasso instance, or null if none
-     */
-    public Picasso getPicasso() {
-        return mPicasso;
-    }
-
-    /**
-     * Provide a Picasso instance to use when loading pictures, this is useful if you have a
-     * particular HTTP cache you would like to share.
-     *
-     * @param picasso The Picasso instance to use, may be null to let the system use the default
-     *                instance
-     */
-    public void setPicasso(Picasso picasso) {
-        mPicasso = picasso;
-    }
 }
