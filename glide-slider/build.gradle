@@ -4,7 +4,7 @@ ext {
     bintrayRepo = 'maven'
     bintrayName = 'glide-slider'
 
-    publishedGroupId = 'ir.alilo'
+    publishedGroupId = 'ir.alilo.glide-slider'
     libraryName = 'Android Image Slider with Glide'
     artifact = 'glide-slider'
 
@@ -32,7 +32,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 22
         versionCode 15
-        versionName "1.1.5"
+        versionName "0.1.1"
     }
     buildTypes {
         release {
@@ -51,4 +51,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.nineoldandroids:library:2.4.0'
 }
-apply from: './gradle-mvn-push.gradle'
+
+//apply from: './gradle-mvn-push.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

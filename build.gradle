@@ -4,6 +4,10 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1' 
 }
 
+subprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
+
 buildscript {
     repositories {
         mavenCentral()
