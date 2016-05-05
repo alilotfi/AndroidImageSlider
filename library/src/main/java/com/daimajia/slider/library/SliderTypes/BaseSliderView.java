@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.daimajia.slider.library.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.io.File;
 
@@ -50,10 +50,10 @@ public abstract class BaseSliderView {
     /**
      * Scale type of the image.
      */
-    private ScaleType mScaleType = ScaleType.Fit;
+    private ScaleType mScaleType = ScaleType.FitCenter;
 
     public enum ScaleType{
-        CenterCrop, CenterInside, Fit, FitCenterCrop
+        CenterCrop, FitCenter
     }
 
     protected BaseSliderView(Context context) {
@@ -205,14 +205,14 @@ public abstract class BaseSliderView {
             mLoadListener.onStart(me);
         }
 
-        Picasso p = Picasso.with(mContext);
-        RequestCreator rq = null;
+        RequestManager g = Glide.with(mContext);
+        DrawableTypeRequest rq;
         if(mUrl!=null){
-            rq = p.load(mUrl);
+            rq = g.load(mUrl);
         }else if(mFile != null){
-            rq = p.load(mFile);
+            rq = g.load(mFile);
         }else if(mRes != 0){
-            rq = p.load(mRes);
+            rq = g.load(mRes);
         }else{
             return;
         }
@@ -230,35 +230,18 @@ public abstract class BaseSliderView {
         }
 
         switch (mScaleType){
-            case Fit:
-                rq.fit();
+            case FitCenter:
+                rq.fitCenter();
                 break;
             case CenterCrop:
-                rq.fit().centerCrop();
-                break;
-            case CenterInside:
-                rq.fit().centerInside();
+                rq.centerCrop();
                 break;
         }
 
-        rq.into(targetImageView,new Callback() {
-            @Override
-            public void onSuccess() {
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onError() {
-                if(mLoadListener != null){
-                    mLoadListener.onEnd(false,me);
-                }
-                if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+        rq.into(targetImageView);
+        if(v.findViewById(R.id.loading_bar) != null){
+            v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
+        }
    }
 
 
